@@ -2,23 +2,18 @@ from flask import request
 from flask_restful import Resource
 from services.redis_service import get_redis_client
 from utils.token_utils import generate_token, token_required
-import bcrypt
+from models.user import User
 
 class Login(Resource):
     def post(self):
-        print("Login attempt received")
         data = request.json
-        print("Login data:", data)
         if 'username' not in data or 'password' not in data:
             return {'message': 'Missing username or password'}, 400
         username = data.get('username')
         password = data.get('password')
         
-        # In a real application, you would fetch the hashed password from a database
-        #hashed_password = bcrypt.hashpw('password'.encode('utf-8'), bcrypt.gensalt())
-        
-        ##if username == 'admin' and bcrypt.checkpw(password.encode('utf-8'), hashed_password):
-        if username == 'admin' and password == 'password':
+        user = User.get_user(username)
+        if user and user.check_password(password):
             token = generate_token()
             redis_client = get_redis_client()
             if redis_client:
@@ -43,8 +38,34 @@ class RefreshToken(Resource):
     @token_required
     def post(self):
         old_token = request.headers.get('Authorization')
-        username = redis_client.get(old_token).decode('utf-8')
-        new_token = generate_token()
-        redis_client.setex(new_token, 7200, username)  # New token expires in 2 hours
-        redis_client.delete(old_token)
-        return {'token': new_token}, 200
+        if old_token.startswith('Bearer '):
+            old_token = old_token.split(' ')[1]
+        redis_client = get_redis_client()
+        if redis_client:
+            username = redis_client.get(old_token)
+            if username:
+                username = username.decode('utf-8')
+                new_token = generate_token()
+                redis_client.setex(new_token, 7200, username)  # New token expires in 2 hours
+                redis_client.delete(old_token)
+                return {'token': new_token}, 200
+        return {'message': 'Invalid or expired token'}, 401
+
+class Register(Resource):
+    def post(self):
+        data = request.json
+        print("Received registration data:", data)
+        if 'username' not in data or 'password' not in data:
+            print("Missing username or password")
+            return {'message': 'Missing username or password'}, 400
+        username = data.get('username')
+        password = data.get('password')
+        
+        user = User.create_user(username, password)
+        if user:
+            print("User created successfully")
+            return {'message': 'User created successfully'}, 201
+        else:
+            print("Username already exists")
+            return {'message': 'Username already exists'}, 400
+

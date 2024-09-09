@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { login as apiLogin, logout as apiLogout } from '../services/api';
+import { login as apiLogin, logout as apiLogout, register as apiRegister } from '../services/api';
 import { LoginCredentials } from '../types';
 
 export const useAuth = () => {
@@ -27,5 +27,14 @@ export const useAuth = () => {
     }
   }, []);
 
-  return { token, login, logout };
+  const register = useCallback(async (credentials: LoginCredentials) => {
+    try {
+      await apiRegister(credentials);
+    } catch (error) {
+      console.error('Registration failed:', error);
+      throw error;
+    }
+  }, []);
+
+  return { token, login, logout, register };
 };

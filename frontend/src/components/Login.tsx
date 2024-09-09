@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LoginCredentials } from '../types';
-
+import { Link } from 'react-router-dom';
 interface LoginProps {
   onLogin: (credentials: LoginCredentials) => Promise<void>;
 }
@@ -36,6 +36,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       />
       <button type="submit">Login</button>
       {error && <p data-testid="error-message">{error}</p>}
+      <p>Don't have an account? <Link to="/register">Register here</Link></p>
     </form>
   );
 };

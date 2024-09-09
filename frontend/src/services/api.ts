@@ -45,3 +45,12 @@ export const getBooks = async (): Promise<Book[]> => {
   const response = await api.get('/books');
   return response.data;
 };
+
+export const register = async (credentials: LoginCredentials): Promise<void> => {
+  try {
+    await api.post('/register', credentials);
+  } catch (error) {
+    console.error('Registration error:', error);
+    throw error;
+  }
+};
