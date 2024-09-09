@@ -23,3 +23,15 @@ main focuses:
   * logout = clear tokens from redis
   * better error handling
   * HTTPS / rate limiting for security
+
+
+requirements in requirements.txt
+
+### redis quick ref
+```
+brew install redis
+
+brew services start redis
+
+redis-cli ping
+```

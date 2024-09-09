@@ -1,26 +1,25 @@
+import os
 from flask import Flask, request, jsonify
 from flask_restful import Api, Resource
 from flask_cors import CORS
 import redis
 import uuid
 import requests
-import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key')
 
 CORS(app)
 api = Api(app)
 
 # redis connection
-redis_client = redis.Redis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis.from_url(os.environ.get('REDIS_URL', 'redis://localhost:6379/0'))
 
 class Login(Resource):
     def post(self):
         username = request.json.get('username')
         password = request.json.get('password')
         
-        # validate credentials against the database (not done properly here)
         if username == 'admin' and password == 'password':
             token = str(uuid.uuid4())
             redis_client.setex(token, 7200, username)  # Token expires in 2 hours
