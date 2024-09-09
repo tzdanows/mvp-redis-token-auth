@@ -1,5 +1,28 @@
 # token-based authentication
 
+---
+
+a minimal redis token authentication system with a react frontend and a flask backend. a functional signup and login which upon authenticating through the sign in page, users will be able to access the api output from: https://softwium.com/api/books which consists of a list of books as shown below:
+
+```json
+[
+  {
+    "id":1,
+    "title":"Unlocking Android",
+    "isbn":"1933988673",
+    "pageCount":416,
+    "authors":["W. Frank Ableson","Charlie Collins","Robi Sen"]
+  },
+  {
+    "id":2,
+    "title":"Android in Action, Second Edition",
+    "isbn":"1935182722",
+    "pageCount":592,
+    "authors":["W. Frank Ableson","Robi Sen"]
+  }
+]
+```
+
 * react frontend mvp [axios/react-router-dom]
 * redis token storage
 * python [Flask]
