@@ -1,0 +1,5 @@
+{
+  "venvPath": "/opt/homebrew/opt/python@3.12/bin",
+  "venv": "python3.12",
+  "extraPaths": ["/opt/homebrew/lib/python3.12/site-packages"]
+}
