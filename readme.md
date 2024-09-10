@@ -63,6 +63,7 @@ a minimal redis token authentication system with a react frontend and a flask ba
   * frontend css improvements [DONE]
   * book object styling [DONE]
   * shift user data storage from redis(lightweight) to postgresql(heavyweight) [TODO]
+  * email field currently serves no purpose, add password recovery [TODO]
 ### redis quick ref | [docs](https://redis.io/docs/latest/develop/connect/)
 ```
 brew install redis
