@@ -1,6 +1,7 @@
 export interface LoginCredentials {
   username: string;
   password: string;
+  email?: string;
 }
 
 export interface Book {

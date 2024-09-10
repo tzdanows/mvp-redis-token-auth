@@ -27,7 +27,7 @@ export const useAuth = () => {
     }
   }, []);
 
-  const register = useCallback(async (credentials: LoginCredentials) => {
+  const register = useCallback(async (credentials: LoginCredentials & { email: string }) => {
     try {
       await apiRegister(credentials);
     } catch (error) {

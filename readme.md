@@ -1,6 +1,6 @@
 # token-based authentication
 
-a minimal redis token authentication system with a react frontend and a flask backend. a functional register and login which upon authenticating through the sign in page, users will be able to access the api output from: https://softwium.com/api/books which consists of a fulllist of books, structured as shown below:
+a minimal redis token authentication system with a react frontend and a flask backend. a lightweight register/login which upon authenticating, users will be able to access the api output from: https://softwium.com/api/books which consists of a book list, with each book structured as shown below:
 
 ---
 
@@ -34,18 +34,17 @@ a minimal redis token authentication system with a react frontend and a flask ba
 
 ### tech used
 * react (axios/react-router-dom)
-* shadcn (ui components)
+* tailwindcss + [dracula colors](https://draculatheme.com/contribute)
 * redis (tokens)
 * python (with flask)
-* [api](https://softwium.com/fake-api/)
+* requirements.txt in both `/frontend` and `/backend`
 
-requirements in requirements.txt
-
-main focuses:
+### main focuses:
 * redis token storage with expiration time
 * react app w/ axios for api calls
 * /api/books endpoint (requires auth to view)
-* main functional flow
+* main functional flow 
+  * register with user/pass
   * login with credentials
   * validates credentials and generates token
   * token stored in redis
@@ -56,14 +55,14 @@ main focuses:
   * refresh token = generate new token
 * optional improvements:
   * salt & hashing + password storage [TODO]
-  * genuine user registration [partially TODO?]
+  * user registration additions [TODO]
   * token refresh [DONE]
   * logout = clear tokens from redis [DONE]
-  * better error handling [TODO?]
+  * better error handling [TODO]
   * HTTPS / rate limiting for security [TODO]
-  * frontend css improvements [TODO]
-  * book object styling [TODO]
-
+  * frontend css improvements [DONE]
+  * book object styling [DONE]
+  * shift user data storage from redis(lightweight) to postgresql(heavyweight) [TODO]
 ### redis quick ref | [docs](https://redis.io/docs/latest/develop/connect/)
 ```
 brew install redis
@@ -83,3 +82,8 @@ cd frontend
 
 npm start
 ```
+
+#### interesting reads
+* [B trees effective for building wikis & more](https://news.ycombinator.com/item?id=41489832)
+* [side quests, this project was also a side quest](https://cassidoo.co/post/side-quests/)
+* while document databases often claim to be "schema-less," in practice, there's usually an implicit schema assumed by the application. This can lead to challenges when evolving the data model over time, as changes need to be carefully managed to ensure compatibility with existing documents. the importance of carefully considering data relationships and future scalability when choosing a database model for your application is genuine. This also emphasizes that while document databases offer flexibility, they still require thoughtful design and management of data structures. {chapter 2 of Designing Data-Intensive Applications}

@@ -46,7 +46,7 @@ export const getBooks = async (): Promise<Book[]> => {
   return response.data;
 };
 
-export const register = async (credentials: LoginCredentials): Promise<void> => {
+export const register = async (credentials: LoginCredentials & { email: string }): Promise<void> => {
   try {
     await api.post('/register', credentials);
   } catch (error) {
